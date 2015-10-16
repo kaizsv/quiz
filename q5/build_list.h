@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct linklist_node {
     int value;
@@ -8,4 +9,5 @@ typedef struct linklist_node {
 
 node *build(node *pHead, int n, int tail);
 void release(node *pHead, node *cycle);
+double diff_in_msecond(struct timespec t1, struct timespec t2);
  
