@@ -1,15 +1,27 @@
 #include "build_list.h"
 
-node *detectCycle(node *slow, node *fast)
+node *detectCycle(node *pHead, node *slow, node *fast)
 {
+    node *cross = NULL;
     if (slow != NULL && fast != NULL && fast->pNext != NULL) {
         slow = slow->pNext;
         fast = fast->pNext->pNext;
         if (slow == fast)
-            return slow;
-    } else
+            cross = slow;
+    } else {
         return NULL;
-    return detectCycle(slow, fast);
+    }
+    if (cross) {
+        slow = pHead;
+        while (1) {
+            if (slow == fast)
+                return slow;
+            slow = slow->pNext;
+            fast = fast->pNext;
+        }
+    } else {
+        return detectCycle(pHead, slow, fast);
+    }
 }
 
 int main()
@@ -18,10 +30,10 @@ int main()
     node *cycleNode;
     struct timespec start, end;
 
-    pHead = build(pHead, 6, 2);
+    pHead = build(pHead, 100, 50);
 
     clock_gettime(CLOCK_REALTIME, &start);
-    cycleNode = detectCycle(pHead, pHead);
+    cycleNode = detectCycle(pHead, pHead, pHead);
     clock_gettime(CLOCK_REALTIME, &end);
 
     if (cycleNode)

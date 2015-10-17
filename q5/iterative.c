@@ -4,14 +4,26 @@ node *detectCycle(node *pHead)
 {
     node *slow = pHead;
     node *fast = pHead;
+    node *cross = NULL;
     while (slow != NULL && fast != NULL && fast->pNext != NULL) {
         slow = slow->pNext;
         fast = fast->pNext->pNext;
         if (slow == fast) {
-            return slow;
+            cross = slow;
+            break;
         }
     }
-    return NULL;
+    if (cross) {
+        slow = pHead;
+        while (1) {
+            if (slow == fast)
+                return slow;
+            slow = slow->pNext;
+            fast = fast->pNext;
+        }
+    } else {
+        return NULL;
+    }
 }
 
 int main()
@@ -20,7 +32,7 @@ int main()
     node *cycleNode;
     struct timespec start, end;
 
-    pHead = build(pHead, 6, 2);
+    pHead = build(pHead, 100, 1);
 
     clock_gettime(CLOCK_REALTIME, &start);
     cycleNode = detectCycle(pHead);

@@ -19,7 +19,8 @@ node *build(node *pHead, int n, int tail)
                 pTail = curr;
         }
     }
-    curr->pNext = pTail;
+    if (tail != 0)
+        curr->pNext = pTail;
     return pHead;
 }
 
